@@ -9,21 +9,24 @@ const CapturaDados = ({ setDados }) => {
 
     
     const calcular = () => {
-      const totalInvestido = (valorInicial + (aporteMensal * periodo))
-    
+      
       //https://investidor10.com.br/calculadoras/juros-compostos/
+      const totalInvestido = (valorInicial + (aporteMensal * periodo))
       const montanteInicial = valorInicial * Math.pow(1 + (juros / 100), periodo)
       const montanteAportes = aporteMensal * ((Math.pow(1 + (juros / 100), periodo) - 1) / (juros / 100))
       const montanteFinal = montanteInicial + montanteAportes
       const jurosAcumulados = montanteFinal - totalInvestido
       const rentabilidade = (((montanteFinal - totalInvestido) / totalInvestido) * 100)
 
+      const dataAtual = new Date().toLocaleString('pt-BR')
+
       setDados({
           totalInvestido: totalInvestido.toFixed(2),
           valorFinal: montanteFinal.toFixed(2),
           rentabilidade: rentabilidade.toFixed(2),
           jurosAcumulados: jurosAcumulados.toFixed(2),
-          periodo: periodo
+          periodo: periodo,
+          data: dataAtual
       })
 
     }
@@ -34,8 +37,6 @@ const CapturaDados = ({ setDados }) => {
       setJuros(0)
       setPeriodo(0)
     }
-
-    //console.log(valorInicial, aporteMensal, juros, periodo)
 
   return (
     <div className='container mt-2'>
@@ -90,9 +91,7 @@ const CapturaDados = ({ setDados }) => {
         <div className='col-9'>
           <button
             className='btn btn-outline-primary w-100 p-1'
-            onClick={calcular}
-            style={{ 
-                borderRadius: 5 }}>
+            onClick={calcular}>
                     Calcular
             </button>
         </div>
@@ -100,9 +99,7 @@ const CapturaDados = ({ setDados }) => {
         <div className='col-3'>
           <button 
             className='btn btn-outline-secondary w-100 p-1'
-            onClick={limpar}
-            style={{
-                borderRadius: 5 }}>
+            onClick={limpar}>
                     Limpar
             </button>
         </div>

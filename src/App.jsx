@@ -1,7 +1,8 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState , useEffect } from 'react'
 import CapturaDados from './CapturaDados.jsx'
 import ExibeDados from './ExibeDados.jsx'
+import RegistraDados from './RegistraDados.jsx'
 
 const App = () => {
 
@@ -10,8 +11,22 @@ const App = () => {
     valorFinal: 0,
     rentabilidade: 0,
     jurosAcumulados: 0,
-    periodo: 0
+    periodo: 0,
+    data:0
   })
+
+  const [historico, setHistorico] = useState([])
+
+  useEffect(() => {
+    if (dados.valorFinal !== 0) {
+      setHistorico((historico) => {
+        const novoHistorico = historico.slice()
+        novoHistorico.push({ data: dados.data, valorFinal: dados.valorFinal })
+        return novoHistorico
+      })  
+    }
+  }, [dados])
+
 
   return (
   <div className='container-xl mt-2'>
@@ -25,7 +40,8 @@ const App = () => {
               rentabilidade={dados.rentabilidade}
               jurosAcumulados={dados.jurosAcumulados}
               periodo={dados.periodo} />
-          {/* histórico de simulaçaões */}
+          <RegistraDados 
+              historico={historico} />
         </div>
       </div>
     </div>
